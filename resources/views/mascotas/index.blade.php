@@ -7,8 +7,11 @@
     <title>Lista de mascotas</title>
 </head>
 <body>
-    
+
+    <a href="{{route('mascotas.create')}}">
     <button>Agregar Mascotas</button>
+    </a>
+
 
 <table>
     <thead>
@@ -21,10 +24,16 @@
                 @foreach($mascotas as $mascota)
                     <tr>
                         <td>{{ $mascota->nombre }}</td>
-                        <td>{{ $mascota->precio</td>
+                        <td>{{ $mascota->precio }} </td>
                         <td>
+                            <a href="{{route('mascotas.edit',$mascota->id)}}">
                             <button>Editar</button>
-                            <button>Borrar</button>
+                            </a>
+                            <form method="POST" action="{{route('mascotas.destroy',$mascota->id)}}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit">Borrar</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 //-->USA MODELO
 use App\Mascota;
+use App\Especie;
 
 class CatalogoController extends Controller
 {
@@ -17,7 +18,8 @@ class CatalogoController extends Controller
     public function index()
     {
         //trae los registros
-        $mascotas = Mascota::all();
+        $mascotas = Mascota::orderBy('id','desc')
+            ->get();
 
         //creamos los argumentos que le enviaremos a la vista
 
@@ -26,7 +28,8 @@ class CatalogoController extends Controller
 
 
         //-->CREAMOS LA VISTA
-        return view('mascotas.index');
+        return view('mascotas.index', $argumentos);
+
     }
 
     /**
@@ -34,10 +37,23 @@ class CatalogoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+
+
+
+  //CREAR FORMULARIO
+  public function create()
+  {
+
+      $especies = Especie::all();
+
+      $argumentos = array();
+      $argumentos['especies'] = $especies;
+
+
+
+      return view('mascotas.create',$argumentos);
+      
+  }
 
     /**
      * Store a newly created resource in storage.
@@ -47,7 +63,25 @@ class CatalogoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Creando instancia
+        $nuevaMascota = new Mascota;
+
+        //Los parametros del input son los "name" de 
+        //los inputs del formulario del create
+
+        
+        $nuevaMascota->id_especie = $request->input('especie');
+        $nuevaMascota->nombre = $request->input('nombre');
+        $nuevaMascota->precio = $request->input('precio');
+        $nuevaMascota->nacimiento = $request->input('nacimiento');
+
+        //Guardar el nuevo registro
+
+        $nuevaMascota->save();
+
+        return redirect()->route('mascotas.index');
+
+
     }
 
     /**
@@ -69,7 +103,16 @@ class CatalogoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $especies = Especie::all();
+        $mascota = Mascota::find($id);
+
+        $argumentos = array();
+        $argumentos['especies'] = $especies;
+        $argumentos['mascota'] = $mascota;
+
+  
+  
+        return view('mascotas.edit',$argumentos);
     }
 
     /**
@@ -81,7 +124,17 @@ class CatalogoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //Encontrar mascota editar
+        $mascota = Mascota::find($id);
+        //Modificar valores
+        $mascota->id_especie = $request->input('especie');
+        $mascota->nombre = $request->input('nombre');
+        $mascota->precio = $request->input('precio');
+        $mascota->nacimiento = $request->input('nacimiento');
+        //Guardar cambios
+        $mascota->save();
+
+        return redirect()->route('mascotas.edit',$id);
     }
 
     /**
@@ -92,6 +145,13 @@ class CatalogoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $mascota = Mascota::find($id);
+
+        $mascota->delete();
+
+        return redirect()->route('mascotas.index');
     }
+    
+
+
 }
