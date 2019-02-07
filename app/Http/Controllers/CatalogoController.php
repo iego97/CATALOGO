@@ -18,8 +18,7 @@ class CatalogoController extends Controller
     public function index()
     {
         //trae los registros
-        $mascotas = Mascota::orderBy('id','desc')
-            ->get();
+        $mascotas = Mascota::orderBy('id','desc')->get();
 
         //creamos los argumentos que le enviaremos a la vista
 
