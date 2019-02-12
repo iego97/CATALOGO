@@ -4,6 +4,8 @@
 @section('subtitulo','Lista de mascotas')
 @section('contenido')
 
+
+
     <div class="row">
         <div class="col-md-12">
             <div class="box">
@@ -14,30 +16,35 @@
 
 
                     <a href="{{route('mascotas.create')}}">
-                    <button class="btn btn-primary">Agregar Mascotas</button>
+                    <button class="btn btn-primary" style="margin-bottom: 20px;" >Agregar Mascotas</button>
                     </a>
-                        
+                        @if(Session::has('exito'))
                      <div class="alert alert-success alert-dismissible" style="margin-top: 20px;">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h4><i class="icon fa fa-check"></i> Alert!</h4>
-                        Success alert preview. This alert is dismissable.
-                    </div>
+                        <h4><i class="icon fa fa-check"></i> Exito</h4>
+                            {{Session::get('exito')}}
+                        </div>
+                        @endif
 
-                        <div class="alert alert-danger alert-dismissible" style="margin-top: 20px;">
+                        @if(Session::has('error'))
+                        <div class="alert alert-danger alert-dismissible" style="margin-top: 20px; ">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                             <h4><i class="icon fa fa-ban"></i> Alert!</h4>
                             Danger alert preview. This alert is dismissable. A wonderful serenity has taken possession of my entire
                             soul, like these sweet mornings of spring which I enjoy with my whole heart.
-                        </div>
 
-                        <table class ="table">
+                            {{Sesion::get('error')}}
+                        </div>
+                        @endif
+                        <table class ="table table-hover table-bordered" id="tablaMascotas">
                             <thead>
                             <tr>
                                 <th>Nombre</th>
                                 <th>Precio</th>
                                 <th>Acciones</th>
-                            <tr>
+                            </tr>
                                 <tbody>
+                                        
                                         @foreach($mascotas as $mascota)
                                             <tr>
                                                 <td>{{ $mascota->nombre }}</td>
@@ -94,5 +101,24 @@
                     </div>
                 </div>
             </div>
+
+@endsection
+
+@section('estilos')
+<!-- DataTables -->
+<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+@endesction
+
+@section('scripts')
+<!-- DataTables -->
+<script src="/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+<script>
+    $(function () {
+        $('#tablaMascotas').DataTable();
+    })
+    
+</script>
 
 @endsection
