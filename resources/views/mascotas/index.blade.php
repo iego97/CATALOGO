@@ -107,7 +107,7 @@
 @section('estilos')
 <!-- DataTables -->
 <link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
-@endesction
+@endsection
 
 @section('scripts')
 <!-- DataTables -->
