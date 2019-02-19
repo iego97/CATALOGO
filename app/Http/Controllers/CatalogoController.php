@@ -83,9 +83,19 @@ class CatalogoController extends Controller
 
         //Guardar el nuevo registro
 
-        $nuevaMascota->save();
 
-        return redirect()->route('mascotas.index');
+        if($nuevaMascota->save()){
+
+            return redirect()->route('mascotas.index')->
+            with('exito','Mascota agregada');
+
+        };
+
+
+        return redirect()->route('mascotas.index')->
+        with('error','No se pudo eliminar mascota');
+
+  
 
 
     }
@@ -140,7 +150,16 @@ class CatalogoController extends Controller
         //Guardar cambios
         $mascota->save();
 
-        return redirect()->route('mascotas.edit',$id);
+        
+
+        if($mascota->save())
+        {
+            return redirect()->route('mascotas.index')->
+            with('exito','mascota actualizada');
+        };
+
+        return redirect()->route('mascotas.index')->
+        with('error','No se pudo actualizar la mascota');
     }
 
     /**

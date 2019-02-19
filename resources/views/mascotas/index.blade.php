@@ -2,6 +2,10 @@
 @section('titulo_pagina','Mascotas | Lista de mascotas')
 @section('titulo', 'Mascotas')
 @section('subtitulo','Lista de mascotas')
+@section('estilos')
+<!-- DataTables -->
+<link rel="stylesheet" href="/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+@endsection
 @section('contenido')
 
 
@@ -69,7 +73,7 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
-                                                                <form method="POST" action="{{route('mascotas.destroy',$mascota->id)}}">
+                                                                <form method="POST" action="{{route('mascotas.destroy', $mascota->id)}}">
                                                                     @csrf
                                                                     @method('DELETE')
                                                                     <button class="btn btn-danger" type="submit">
@@ -104,10 +108,7 @@
 
 @endsection
 
-@section('estilos')
-<!-- DataTables -->
-<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
-@endsection
+
 
 @section('scripts')
 <!-- DataTables -->
